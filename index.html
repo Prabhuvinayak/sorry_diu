@@ -25,12 +25,90 @@
             color: white;
         }
 
+        /* =========================
+           OPENING SCREEN
+        ========================= */
+
+        .opening {
+            position: fixed;
+            inset: 0;
+            background: linear-gradient(135deg, #ff416c, #ff4b8b);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            z-index: 9999;
+            transition: opacity 1.2s ease, visibility 1.2s ease;
+        }
+
+        .opening.hide {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .opening-heart {
+            font-size: 100px;
+            animation: heartbeat 1.2s infinite;
+            filter: drop-shadow(0 0 25px rgba(255, 255, 255, 0.7));
+        }
+
+        .opening h1 {
+            margin-top: 25px;
+            font-size: 38px;
+            text-shadow: 0 0 15px rgba(255, 255, 255, 0.7);
+        }
+
+        .opening p {
+            margin-top: 15px;
+            font-size: 18px;
+        }
+
+        .open-btn {
+            margin-top: 35px;
+            padding: 16px 35px;
+            border: none;
+            border-radius: 40px;
+            background: white;
+            color: #ff4f81;
+            font-size: 19px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.25);
+            animation: buttonPulse 1.5s infinite;
+        }
+
+        @keyframes buttonPulse {
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.08);
+            }
+        }
+
+        /* =========================
+           MAIN CONTENT
+        ========================= */
+
         .container {
             width: 90%;
             max-width: 420px;
             text-align: center;
             position: relative;
             z-index: 10;
+
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 1.5s ease, transform 1.5s ease;
+        }
+
+        .container.show {
+            opacity: 1;
+            transform: translateY(0);
         }
 
         .heart {
@@ -65,14 +143,12 @@
             font-size: 45px;
             margin-top: 15px;
             text-shadow: 0 0 15px rgba(255, 255, 255, 0.7);
-            animation: fadeIn 2s ease;
         }
 
         .subtitle {
             margin-top: 15px;
             font-size: 20px;
             line-height: 1.6;
-            animation: fadeIn 3s ease;
         }
 
         .buttons {
@@ -113,19 +189,9 @@
             min-height: 35px;
         }
 
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* Floating hearts */
+        /* =========================
+           FLOATING HEARTS
+        ========================= */
 
         .floating-heart {
             position: absolute;
@@ -133,6 +199,7 @@
             font-size: 25px;
             animation: floatUp linear forwards;
             pointer-events: none;
+            z-index: 2;
         }
 
         @keyframes floatUp {
@@ -147,7 +214,9 @@
             }
         }
 
-        /* Celebration */
+        /* =========================
+           CELEBRATION
+        ========================= */
 
         .celebrate {
             position: fixed;
@@ -179,7 +248,56 @@
             }
         }
 
+        /* =========================
+           MUSIC BUTTON
+        ========================= */
+
+        .music-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            padding: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.25);
+            color: white;
+            font-size: 22px;
+            z-index: 200;
+            backdrop-filter: blur(10px);
+        }
+
+        .music-btn.playing {
+            animation: musicPulse 1s infinite;
+        }
+
+        @keyframes musicPulse {
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.1);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
         @media (max-width: 500px) {
+
+            .opening-heart {
+                font-size: 80px;
+            }
+
+            .opening h1 {
+                font-size: 30px;
+            }
+
+            .opening p {
+                font-size: 16px;
+            }
 
             .heart {
                 font-size: 75px;
@@ -203,19 +321,66 @@
 
 <body>
 
-    <div class="container">
 
-        <div class="heart">❤️</div>
+    <audio id="bgMusic" loop>
+        <source src="song.mp3" type="audio/mpeg">
+    </audio>
 
-        <h1>Sorry Diuu 🥺</h1>
+
+   
+
+    <div class="opening" id="opening">
+
+        <div class="opening-heart">
+            ❤️
+        </div>
+
+        <h1>Hey Diuu... 🥺</h1>
+
+        <p>
+            I have something to tell you...
+        </p>
+
+        <button class="open-btn" id="openBtn">
+            Tap to Open ❤️
+        </button>
+
+    </div>
+
+
+    <
+
+    <button class="music-btn" id="musicBtn">
+        🎵
+    </button>
+
+
+   
+
+    <div class="container" id="mainContent">
+
+        <div class="heart">
+            ❤️
+        </div>
+
+        <h1>
+            Sorry Diuu 🥺
+        </h1>
 
         <p class="subtitle">
+
             I know I made a mistake...
+
             <br>
+
             But please don't stay angry with me. ❤️
+
             <br><br>
+
             You mean a lot to me. 🫶
+
         </p>
+
 
         <div class="buttons">
 
@@ -229,97 +394,267 @@
 
         </div>
 
+
         <div class="message" id="message"></div>
 
     </div>
 
+
+   
+
     <div class="celebrate" id="celebrate">
+
         ❤️🥰❤️
+
         <br>
+
         <span style="font-size:30px">
             Thank You Diuu!
         </span>
+
     </div>
+
 
     <script>
 
-        const yesBtn = document.getElementById("yesBtn");
-        const noBtn = document.getElementById("noBtn");
-        const message = document.getElementById("message");
-        const celebrate = document.getElementById("celebrate");
+        const opening = document.getElementById("opening");
+        const openBtn = document.getElementById("openBtn");
 
-        // YES button
+        const mainContent =
+            document.getElementById("mainContent");
+
+        const bgMusic =
+            document.getElementById("bgMusic");
+
+        const musicBtn =
+            document.getElementById("musicBtn");
+
+        const yesBtn =
+            document.getElementById("yesBtn");
+
+        const noBtn =
+            document.getElementById("noBtn");
+
+        const message =
+            document.getElementById("message");
+
+        const celebrate =
+            document.getElementById("celebrate");
+
+
+        let musicPlaying = false;
+
+
+       
+
+        openBtn.addEventListener("click", () => {
+
+            // Start song
+            bgMusic.play()
+                .then(() => {
+
+                    musicPlaying = true;
+
+                    musicBtn.classList.add("playing");
+
+                    musicBtn.innerHTML = "🎵";
+
+                })
+                .catch(error => {
+
+                    console.log(
+                        "Music error:",
+                        error
+                    );
+
+                });
+
+
+            // Hide opening screen
+            opening.classList.add("hide");
+
+
+            // Show main content
+            setTimeout(() => {
+
+                mainContent.classList.add("show");
+
+            }, 500);
+
+
+            for (let i = 0; i < 15; i++) {
+
+                setTimeout(() => {
+
+                    createHeart();
+
+                }, i * 150);
+
+            }
+
+        });
+
+
+       
+
+        musicBtn.addEventListener("click", () => {
+
+            if (musicPlaying) {
+
+                bgMusic.pause();
+
+                musicPlaying = false;
+
+                musicBtn.classList.remove("playing");
+
+                musicBtn.innerHTML = "🔇";
+
+            } else {
+
+                bgMusic.play();
+
+                musicPlaying = true;
+
+                musicBtn.classList.add("playing");
+
+                musicBtn.innerHTML = "🎵";
+
+            }
+
+        });
+
+
+       
+
         yesBtn.addEventListener("click", () => {
 
-            message.innerHTML = "Yayyy! I knew you would forgive me 🥺❤️";
+            message.innerHTML =
+                "Yayyy! I knew you would forgive me 🥺❤️";
+
 
             celebrate.classList.add("show");
 
-            // Create lots of hearts
+
+            // Celebration hearts
+
             for (let i = 0; i < 40; i++) {
+
                 setTimeout(() => {
+
                     createHeart();
+
                 }, i * 80);
+
             }
 
+
             setTimeout(() => {
+
                 celebrate.classList.remove("show");
+
             }, 3500);
 
         });
 
 
-        // NO button
+      
+
         noBtn.addEventListener("click", () => {
 
             message.innerHTML =
                 "Please Diuu 🥺 Don't be angry with me ❤️";
 
-            // Move button randomly
+
             const x =
-                Math.random() * (window.innerWidth - noBtn.offsetWidth);
+                Math.random() *
+                (window.innerWidth - noBtn.offsetWidth);
+
 
             const y =
-                Math.random() * (window.innerHeight - noBtn.offsetHeight);
+                Math.random() *
+                (window.innerHeight - noBtn.offsetHeight);
+
 
             noBtn.style.position = "fixed";
+
             noBtn.style.left = x + "px";
+
             noBtn.style.top = y + "px";
 
         });
 
 
-        // Floating hearts
+
         function createHeart() {
 
-            const heart = document.createElement("div");
+            const heart =
+                document.createElement("div");
 
-            heart.classList.add("floating-heart");
 
-            const hearts = ["❤️", "💗", "💕", "💖", "💘", "🥰"];
+            heart.classList.add(
+                "floating-heart"
+            );
+
+
+            const hearts = [
+                "❤️",
+                "💗",
+                "💕",
+                "💖",
+                "💘",
+                "🥰"
+            ];
+
 
             heart.innerHTML =
-                hearts[Math.floor(Math.random() * hearts.length)];
+                hearts[
+                    Math.floor(
+                        Math.random() *
+                        hearts.length
+                    )
+                ];
+
 
             heart.style.left =
                 Math.random() * 100 + "vw";
 
+
             heart.style.fontSize =
                 (15 + Math.random() * 30) + "px";
+
 
             heart.style.animationDuration =
                 (3 + Math.random() * 4) + "s";
 
-            document.body.appendChild(heart);
+
+            document.body.appendChild(
+                heart
+            );
+
 
             setTimeout(() => {
+
                 heart.remove();
+
             }, 7000);
+
         }
 
 
-        // Continuously create hearts
-        setInterval(createHeart, 500);
+        
+
+        setInterval(() => {
+
+            // Only create hearts after opening
+
+            if (!opening.classList.contains("hide")) {
+                return;
+            }
+
+            createHeart();
+
+        }, 700);
+
 
     </script>
 
